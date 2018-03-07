@@ -216,6 +216,7 @@
 
 class kubernetes (
   String $kubernetes_version                                       = $kubernetes::params::kubernetes_version,
+  String $kube_image_tag                                           = $kubernetes::params::kube_image_tag,
   Optional[String] $kubernetes_package_version                     = $kubernetes::params::kubernetes_package_version,
   String $kubernetes_fqdn                                          = $kubernetes::params::kubernetes_fqdn,
   String $container_runtime                                        = $kubernetes::params::container_runtime,
