@@ -34,7 +34,7 @@ spec:
     <% if @kubernetes_version =~ /1[.](8|9)[.]\d/ -%>- --authorization-mode=Node,RBAC<% end %>
     <% if @kubernetes_version =~ /1[.](6|7)[.]\d/ -%>- --authorization-mode=RBAC<% end %>
     - --advertise-address=<%= @kube_api_advertise_address  %>
-    - --etcd-servers=http://127.0.0.1:2379
+    - --etcd-servers=http://<%= @local_ip %>:2379
 <% @apiserver_extra_arguments.each do |arg| -%>
     - <%= arg %>
 <% end -%>
@@ -42,7 +42,7 @@ spec:
     livenessProbe:
       failureThreshold: 8
       httpGet:
-        host: 127.0.0.1
+        host: <%= @local_ip %>
         path: /healthz
         port: 6443
         scheme: HTTPS

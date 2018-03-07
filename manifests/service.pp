@@ -28,20 +28,27 @@ class kubernetes::service (
     path        => '/bin',
     command     => 'systemctl daemon-reload',
     refreshonly => true,
+    unless      => 'uname -a | grep coreos',
   }
 
   case $container_runtime {
     'docker': {
-      service { 'docker':
-        ensure => running,
-        enable => true,
-      }
-
-      service {'kubelet':
-        ensure    => running,
-        enable    => true,
-        subscribe => File['/etc/systemd/system/kubelet.service.d/kubernetes.conf'],
-        require   => Service['docker'],
+      if $facts['os']['name'] == 'CoreOS' {
+        service { 'docker':
+          ensure => stopped,
+        }
+      } 
+      else {
+        service { 'docker':
+          ensure => running,
+          enable => true,
+        }
+        service {'kubelet':
+          ensure    => running,
+          enable    => true,
+          subscribe => File['/etc/systemd/system/kubelet.service.d/kubernetes.conf'],
+          require   => Service['docker'],
+        }
       }
     }
 
@@ -74,16 +81,15 @@ class kubernetes::service (
   }
 
   if $bootstrap_controller {
-
     exec {'Checking for the Kubernetes cluster to be ready':
-      path        => ['/usr/bin', '/bin'],
+      path        => ['/usr/bin', '/bin', '/opt/bin'],
       command     => 'kubectl get nodes | grep -w NotReady',
       tries       => 50,
       try_sleep   => 10,
       logoutput   => true,
       unless      => 'kubectl get nodes',
       environment => [ 'HOME=/root', 'KUBECONFIG=/root/admin.conf'],
-      require     => [ Service['kubelet'], File['/root/admin.conf']],
+      require     => [ File['/root/admin.conf']],
     }
   }
 }

@@ -11,6 +11,10 @@ case $::osfamily {
     $kubernetes_package_version = '1.9.2'
     $cni_version = '0.6.0'
   }
+  'CoreOS' : {
+    $kubernetes_package_version = '1.9.2'
+    $cni_version = '0.6.0'
+  }
   default: { notify {"The OS family ${::os_family} is not supported by this module":} }
 }
 $kubernetes_version = '1.7.3'
@@ -20,6 +24,7 @@ $kubernetes_fqdn = 'kubernetes'
 $controller = false
 $bootstrap_controller = false
 $bootstrap_controller_ip = undef
+$local_ip = '127.0.0.1'
 $worker = false
 $kube_api_advertise_address = undef
 $etcd_version = '3.1.11'

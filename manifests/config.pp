@@ -11,6 +11,7 @@ class kubernetes::config (
   Boolean $controller                                              = $kubernetes::controller,
   Boolean $bootstrap_controller                                    = $kubernetes::bootstrap_controller,
   Optional[String] $bootstrap_controller_ip                        = $kubernetes::bootstrap_controller_ip,
+  Optional[String] $local_ip                                       = $kubernetes::local_ip,
   Boolean $worker                                                  = $kubernetes::worker,
   Optional[String] $node_name                                      = $::hostname,
   Optional[String] $kube_api_advertise_address                     = $kubernetes::kube_api_advertise_address,
@@ -105,7 +106,7 @@ class kubernetes::config (
 
   if $controller {
 
-  #TODO fix secuirty issue that the bootstarp token is left on the server.
+  #TODO fix security issue that the bootstrap token is left on the server.
 
   file {'/etc/kubernetes/secrets/bootstraptoken.yaml':
     ensure  => present,
@@ -131,4 +132,6 @@ class kubernetes::config (
       content => 'export KUBECONFIG=$HOME/admin.conf',
     }
   }
+
+  notify { "Finished Config": }
 }
