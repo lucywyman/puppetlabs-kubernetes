@@ -11,9 +11,14 @@ case $::osfamily {
     $kubernetes_package_version = '1.9.2'
     $cni_version = '0.6.0'
   }
+  'CoreOS' : {
+    $kubernetes_package_version = '1.9.2'
+    $cni_version = '0.6.0'
+  }
   default: { notify {"The OS family ${::os_family} is not supported by this module":} }
 }
 $kubernetes_version = '1.7.3'
+$kube_image_tag = 'v1.9.3'
 $kube_dns_version = '1.14.2'
 $container_runtime = 'docker'
 $kubernetes_fqdn = 'kubernetes'

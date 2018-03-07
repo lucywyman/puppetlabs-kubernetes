@@ -45,6 +45,9 @@ class kubernetes::repos (
         gpgcheck => true,
       }
     }
+    'CoreOS': {
+      notify {"No repos needed for ${::os_family}":}
+    }
 
   default: { notify {"The OS family ${::os_family} is not supported by this module":} }
 
