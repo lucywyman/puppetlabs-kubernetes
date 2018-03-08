@@ -12,7 +12,6 @@ class kubernetes::config (
   Boolean $controller                                              = $kubernetes::controller,
   Boolean $bootstrap_controller                                    = $kubernetes::bootstrap_controller,
   Optional[String] $bootstrap_controller_ip                        = $kubernetes::bootstrap_controller_ip,
-  Optional[String] $local_ip                                       = $kubernetes::local_ip,
   Boolean $worker                                                  = $kubernetes::worker,
   Optional[String] $node_name                                      = $::hostname,
   Optional[String] $kube_api_advertise_address                     = $kubernetes::kube_api_advertise_address,

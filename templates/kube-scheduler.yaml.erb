@@ -11,14 +11,14 @@ spec:
   containers:
   - command:
     - kube-scheduler
-    - --address=<%= @local_ip %>
+    - --address=127.0.0.1
     - --leader-elect=true
     - --kubeconfig=/etc/kubernetes/scheduler.conf
     image: gcr.io/google_containers/kube-scheduler-amd64:v<%= @kubernetes_version  %>
     livenessProbe:
       failureThreshold: 8
       httpGet:
-        host: <%= @local_ip %>
+        host: 127.0.0.1
         path: /healthz
         port: 10251
         scheme: HTTP

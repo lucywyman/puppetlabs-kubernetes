@@ -17,7 +17,7 @@ spec:
     - --kubeconfig=/etc/kubernetes/controller-manager.conf
     - --service-account-private-key-file=/etc/kubernetes/pki/sa.key
     - --cluster-signing-key-file=/etc/kubernetes/pki/ca.key
-    - --address=<%= @local_ip %>
+    - --address=127.0.0.1
     - --leader-elect=true
     - --root-ca-file=/etc/kubernetes/pki/ca.crt
     - --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt
@@ -27,7 +27,7 @@ spec:
     livenessProbe:
       failureThreshold: 8
       httpGet:
-        host: <%= @local_ip %>
+        host: 127.0.0.1
         path: /healthz
         port: 10252
         scheme: HTTP

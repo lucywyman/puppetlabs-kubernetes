@@ -37,6 +37,15 @@ class kubernetes::service (
         service { 'docker':
           ensure => stopped,
         }
+        file { '/etc/systemd/system/kubelet.service':
+          content => "[Service]",
+        }
+        service { 'etcd-member':
+          ensure => running,
+        }
+        service { 'kubelet':
+          ensure => running,
+          require => File['/etc/systemd/system/kubelet.service']
       } 
       else {
         service { 'docker':
