@@ -18,6 +18,7 @@ case $::osfamily {
   default: { notify {"The OS family ${::os_family} is not supported by this module":} }
 }
 $kubernetes_version = '1.7.3'
+$kube_image_tag = 'v1.7.3'
 $kube_dns_version = '1.14.2'
 $container_runtime = 'docker'
 $kubernetes_fqdn = 'kubernetes'

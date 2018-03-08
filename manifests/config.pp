@@ -3,6 +3,7 @@
 class kubernetes::config (
 
   String $kubernetes_version                                       = $kubernetes::kubernetes_version,
+  String $kube_image_tag                                           = $kubernetes::kube_image_tag,
   String $container_runtime                                        = $kubernetes::container_runtime,
   Optional[String] $cni_cluster_cidr                               = $kubernetes::cni_cluster_cidr,
   Optional[String] $cni_node_cidr                                  = $kubernetes::cni_node_cidr,
@@ -132,6 +133,4 @@ class kubernetes::config (
       content => 'export KUBECONFIG=$HOME/admin.conf',
     }
   }
-
-  notify { "Finished Config": }
 }

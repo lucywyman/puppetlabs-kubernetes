@@ -43,11 +43,6 @@ class kubernetes::packages (
 
       'CoreOS' : { 
         notify {"Docker is already installed on CoreOS":}
-
-        file { '/etc/systemd/system/kubelet.service':
-          ensure    => file,
-          source    => template('kubernetes/kubelet.service.erb')
-        }
       }
 
       default: { notify {"The OS family ${::os_family} is not supported by this module":} }
