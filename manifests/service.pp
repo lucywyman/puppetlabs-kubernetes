@@ -37,15 +37,16 @@ class kubernetes::service (
         service { 'docker':
           ensure => stopped,
         }
-        file { '/etc/systemd/system/kubelet.service':
-          content => "[Service]",
-        }
-        service { 'etcd-member':
-          ensure => running,
-        }
-        service { 'kubelet':
-          ensure => running,
-          require => File['/etc/systemd/system/kubelet.service']
+#        file { '/etc/systemd/system/kubelet.service':
+#          content => "[Service]",
+#        }
+#        service { 'etcd-member':
+#          ensure => running,
+#        }
+#        service { 'kubelet':
+#          ensure => running,
+#          require => File['/etc/systemd/system/kubelet.service']
+#        }
       } 
       else {
         service { 'docker':
@@ -93,8 +94,8 @@ class kubernetes::service (
     exec {'Checking for the Kubernetes cluster to be ready':
       path        => ['/usr/bin', '/bin', '/opt/bin'],
       command     => 'kubectl get nodes | grep -w NotReady',
-      tries       => 50,
-      try_sleep   => 10,
+      tries       => 10,
+      try_sleep   => 3,
       logoutput   => true,
       unless      => 'kubectl get nodes',
       environment => [ 'HOME=/root', 'KUBECONFIG=/root/admin.conf'],
