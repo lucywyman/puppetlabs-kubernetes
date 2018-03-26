@@ -25,7 +25,10 @@ class kubernetes::packages (
     case $::osfamily {
       'Debian' : {
         package { 'docker-engine':
-        ensure => '1.12.0-0~xenial',
+          ensure => '1.12.0-0~xenial',
+        }
+        package { 'kubernetes-cni':
+          ensure => $cni_version,
         }
       }
 
@@ -33,14 +36,18 @@ class kubernetes::packages (
         package { 'docker-engine':
           ensure => '1.12.6',
         }
+        package { 'kubernetes-cni':
+          ensure => $cni_version,
+        }
       }
 
-    default: { notify {"The OS family ${::os_family} is not supported by this module":} }
+      'CoreOS' : { 
+        notify {"Docker is already installed on CoreOS":}
+      }
+
+      default: { notify {"The OS family ${::os_family} is not supported by this module":} }
     }
 
-    package { 'kubernetes-cni':
-      ensure => $cni_version,
-    }
   }
 
   elsif $container_runtime == 'cri_containerd' {
@@ -62,7 +69,19 @@ class kubernetes::packages (
       }
   }
 
-  package { $kube_packages:
-    ensure => $kubernetes_package_version,
+
+  case $::osfamily {
+    'CoreOS' : {
+      file { '/opt/bin/kubectl':
+        ensure  => file,
+        mode    => '0755',
+        source  => 'https://storage.googleapis.com/kubernetes-release/release/v1.8.4/bin/linux/amd64/kubectl'
+      }
     }
+    default: {
+      package { $kube_packages:
+        ensure => $kubernetes_package_version,
+      }
+    }
+  }
 }

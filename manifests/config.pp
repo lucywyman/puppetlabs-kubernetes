@@ -3,6 +3,7 @@
 class kubernetes::config (
 
   String $kubernetes_version                                       = $kubernetes::kubernetes_version,
+  String $kube_image_tag                                           = $kubernetes::kube_image_tag,
   String $container_runtime                                        = $kubernetes::container_runtime,
   Optional[String] $cni_cluster_cidr                               = $kubernetes::cni_cluster_cidr,
   Optional[String] $cni_node_cidr                                  = $kubernetes::cni_node_cidr,
@@ -105,7 +106,7 @@ class kubernetes::config (
 
   if $controller {
 
-  #TODO fix secuirty issue that the bootstarp token is left on the server.
+  #TODO fix security issue that the bootstrap token is left on the server.
 
   file {'/etc/kubernetes/secrets/bootstraptoken.yaml':
     ensure  => present,
