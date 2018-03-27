@@ -41,8 +41,8 @@ class kubernetes::packages (
         }
       }
 
-      'CoreOS' : { 
-        notify {"Docker is already installed on CoreOS":}
+      'CoreOS' : {
+        notify {'Docker is already installed on CoreOS':}
       }
 
       default: { notify {"The OS family ${::os_family} is not supported by this module":} }
