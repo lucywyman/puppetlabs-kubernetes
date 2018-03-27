@@ -10,6 +10,10 @@
 #   ie api server,
 #   Defaults to  1.9.2
 #
+# [*kube_image_tag*]
+#   The kubernetes image to use
+#   Defaults to undef
+#
 # [*kubernetes_package_version*]
 #   The version of the packages the Kubernetes os packages to install
 #   ie kubectl and kubelet
@@ -216,7 +220,7 @@
 
 class kubernetes (
   String $kubernetes_version                                       = $kubernetes::params::kubernetes_version,
-  String $kube_image_tag                                           = $kubernetes::params::kube_image_tag,
+  Optional[String] $kube_image_tag                                 = $kubernetes::params::kube_image_tag,
   Optional[String] $kubernetes_package_version                     = $kubernetes::params::kubernetes_package_version,
   String $kubernetes_fqdn                                          = $kubernetes::params::kubernetes_fqdn,
   String $container_runtime                                        = $kubernetes::params::container_runtime,

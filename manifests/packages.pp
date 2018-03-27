@@ -75,7 +75,7 @@ class kubernetes::packages (
       file { '/opt/bin/kubectl':
         ensure  => file,
         mode    => '0755',
-        source  => 'https://storage.googleapis.com/kubernetes-release/release/v1.8.4/bin/linux/amd64/kubectl'
+        source  => "https://storage.googleapis.com/kubernetes-release/release/v${kubernetes_package_version}/bin/linux/amd64/kubectl"
       }
     }
     default: {

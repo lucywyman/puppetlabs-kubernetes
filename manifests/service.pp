@@ -28,7 +28,7 @@ class kubernetes::service (
     path        => '/bin',
     command     => 'systemctl daemon-reload',
     refreshonly => true,
-    unless      => 'uname -a | grep coreos',
+    #unless      => 'uname -a | grep coreos',
   }
 
   case $container_runtime {
@@ -37,16 +37,16 @@ class kubernetes::service (
         service { 'docker':
           ensure => stopped,
         }
-#        file { '/etc/systemd/system/kubelet.service':
-#          content => "[Service]",
-#        }
-#        service { 'etcd-member':
-#          ensure => running,
-#        }
-#        service { 'kubelet':
-#          ensure => running,
-#          require => File['/etc/systemd/system/kubelet.service']
-#        }
+        file { '/etc/systemd/system/kubelet.service':
+          content => "[Service]",
+        }
+        service { 'etcd-member':
+          ensure => running,
+        }
+        service { 'kubelet':
+          ensure => running,
+          require => File['/etc/systemd/system/kubelet.service']
+        }
       } 
       else {
         service { 'docker':
@@ -99,7 +99,7 @@ class kubernetes::service (
       logoutput   => true,
       unless      => 'kubectl get nodes',
       environment => [ 'HOME=/root', 'KUBECONFIG=/root/admin.conf'],
-      require     => [ File['/root/admin.conf']],
+      require     => [ Service['kubelet'], File['/root/admin.conf']],
     }
   }
 }

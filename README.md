@@ -135,6 +135,12 @@ The version of the Kubernetes containers to install.
 
 Defaults to  `1.9.2`.
 
+#### `kube_image_tag`
+
+The kubernetes image to use.
+
+Defaults to `undef`.
+
 #### `kubernetes_package_version`
 
 The version the Kubernetes OS packages to install, such as kubectl and kubelet.
